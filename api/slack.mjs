@@ -5,7 +5,7 @@ import { registerHandlers } from '../src/index.js';
 
 const receiver = new VercelReceiver({
   signingSecret: process.env.SLACK_SIGNING_SECRET,
-  signatureVerification: false
+  signatureVerification: true
 });
 
 const app = new App({
