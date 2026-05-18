@@ -4,7 +4,8 @@ const { registerHandlers } = require('../src/index');
 
 const receiver = new ExpressReceiver({
   signingSecret: process.env.SLACK_SIGNING_SECRET,
-  processBeforeResponse: true
+  processBeforeResponse: true,
+  endpoints: '/api/slack'
 });
 
 const app = new App({
