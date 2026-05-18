@@ -1,0 +1,20 @@
+{
+  "name": "prt-slack-bot",
+  "version": "1.0.0",
+  "description": "PRt Agency Leave Tracking & Policy Q&A Slack Bot",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
+  },
+  "dependencies": {
+    "@slack/bolt": "^3.17.0",
+    "dotenv": "^16.4.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
