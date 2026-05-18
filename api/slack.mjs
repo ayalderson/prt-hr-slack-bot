@@ -1,7 +1,7 @@
-require('dotenv').config();
-const { App } = require('@slack/bolt');
-const { VercelReceiver, createHandler } = require('@vercel/slack-bolt');
-const { registerHandlers } = require('../src/index');
+import 'dotenv/config';
+import { App } from '@slack/bolt';
+import { VercelReceiver, createHandler } from '@vercel/slack-bolt';
+import { registerHandlers } from '../src/index.js';
 
 const receiver = new VercelReceiver({
   signingSecret: process.env.SLACK_SIGNING_SECRET
@@ -19,6 +19,6 @@ registerHandlers(app);
 
 const handler = createHandler(app, receiver);
 
-module.exports = async (req) => {
+export async function POST(req) {
   return handler(req);
-};
+}
