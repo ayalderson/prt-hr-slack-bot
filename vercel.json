@@ -4,11 +4,5 @@
     "api/slack.js": {
       "maxDuration": 30
     }
-  },
-  "rewrites": [
-    {
-      "source": "/api/slack",
-      "destination": "/api/slack"
-    }
-  ]
+  }
 }

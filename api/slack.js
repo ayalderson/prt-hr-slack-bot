@@ -1,23 +1,23 @@
 require('dotenv').config();
-const { App, ExpressReceiver } = require('@slack/bolt');
+const { App } = require('@slack/bolt');
+const { VercelReceiver, createHandler } = require('@vercel/slack-bolt');
 const { registerHandlers } = require('../src/index');
 
-const receiver = new ExpressReceiver({
-  signingSecret: process.env.SLACK_SIGNING_SECRET,
-  processBeforeResponse: true,
-  endpoints: '/api/slack'
+const receiver = new VercelReceiver({
+  signingSecret: process.env.SLACK_SIGNING_SECRET
 });
 
 const app = new App({
   token: process.env.SLACK_BOT_TOKEN,
   signingSecret: process.env.SLACK_SIGNING_SECRET,
-  receiver
+  receiver,
+  deferInitialization: true
 });
 
 registerHandlers(app);
 
-const expressApp = receiver.app;
+const handler = createHandler(app, receiver);
 
-module.exports = (req, res) => {
-  expressApp(req, res);
+module.exports = async (req) => {
+  return handler(req);
 };
