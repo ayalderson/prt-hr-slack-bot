@@ -4,7 +4,8 @@ import { VercelReceiver, createHandler } from '@vercel/slack-bolt';
 import { registerHandlers } from '../src/index.js';
 
 const receiver = new VercelReceiver({
-  signingSecret: process.env.SLACK_SIGNING_SECRET
+  signingSecret: process.env.SLACK_SIGNING_SECRET,
+  signatureVerification: false
 });
 
 const app = new App({
