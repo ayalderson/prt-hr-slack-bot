@@ -129,11 +129,16 @@ async function getEmployeeSummary(employeeName) {
   const records = await getEmployeeLeave(employeeName);
   if (records.length === 0) return null;
 
+  const now = new Date();
+  const currentMonth = now.getMonth();
+  const currentYear = now.getFullYear();
+
   const summary = {
     name: records[0].name,
     totalDaysUsed: 0,
     annualDeductibleUsed: 0,
     wfhUsed: 0,
+    wfhUsedCurrentMonth: 0,
     sickUsed: 0,
     otherUsed: 0,
     records,
@@ -145,7 +150,13 @@ async function getEmployeeSummary(employeeName) {
     summary.totalDaysUsed += days;
     const type = String(r.type).trim();
     if (ANNUAL_DEDUCTIBLE.includes(type)) summary.annualDeductibleUsed += days;
-    else if (type === 'WFH') summary.wfhUsed += days;
+    else if (type === 'WFH') {
+      summary.wfhUsed += days;
+      const startDate = new Date(r.startDate);
+      if (startDate.getMonth() === currentMonth && startDate.getFullYear() === currentYear) {
+        summary.wfhUsedCurrentMonth += days;
+      }
+    }
     else if (type === 'Sick') summary.sickUsed += days;
     else summary.otherUsed += days;
   }

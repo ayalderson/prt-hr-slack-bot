@@ -54,13 +54,7 @@ function buildHomeTab(userName, userId) {
         elements: [
           {
             type: 'button',
-            text: { type: 'plain_text', text: '❓ أسئلة السياسات', emoji: true },
-            action_id: 'browse_faqs',
-            style: 'primary'
-          },
-          {
-            type: 'button',
-            text: { type: 'plain_text', text: '📋 عرض جميع الأسئلة', emoji: true },
+            text: { type: 'plain_text', text: '❓ أسئلة مكررة FAQ', emoji: true },
             action_id: 'view_faqs'
           }
         ]
@@ -139,7 +133,7 @@ function buildLeaveBalanceBlocks(summary) {
       fields: [
         { type: 'mrkdwn', text: `${remainingEmoji} *الإجازات السنوية المتبقية*\n${remaining} من 21 يوم` },
         { type: 'mrkdwn', text: `📅 *أيام الإجازة المستخدمة*\n${summary.annualDeductibleUsed} يوم` },
-        { type: 'mrkdwn', text: `🏠 *أيام العمل من المنزل*\n${summary.wfhUsed} يوم ${summary.wfhUsed > 2 ? '⚠️' : ''}` },
+        { type: 'mrkdwn', text: `🏠 *أيام العمل من المنزل هذا الشهر (WFH)*\n${summary.wfhUsedCurrentMonth} يوم ${summary.wfhUsedCurrentMonth > 2 ? '⚠️' : ''}` },
         { type: 'mrkdwn', text: `🤒 *الإجازات المرضية*\n${summary.sickUsed} يوم` }
       ]
     },
