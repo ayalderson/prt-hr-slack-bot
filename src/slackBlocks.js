@@ -37,11 +37,11 @@ function buildHomeTab(userName, userId) {
             action_id: 'check_my_balance',
             style: 'primary'
           },
-          {
-            type: 'button',
-            text: { type: 'plain_text', text: '✍️ طلب إجازة', emoji: true },
-            action_id: 'request_leave'
-          },
+          // {
+          //   type: 'button',
+          //   text: { type: 'plain_text', text: '✍️ طلب إجازة', emoji: true },
+          //   action_id: 'request_leave'
+          // },
           ...(isAdmin ? [{
             type: 'button',
             text: { type: 'plain_text', text: '📊 نظرة عامة على الفريق', emoji: true },

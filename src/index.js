@@ -112,63 +112,64 @@ function registerHandlers(app) {
     });
   });
 
-  // ─── Leave Request ────────────────────────────────────────────────────────────
+  // ─── Leave Request (disabled) ──────────────────────────────────────────────
+  // TODO: re-enable when ready
 
-  app.action('request_leave', async ({ body, client, ack }) => {
-    await ack();
-    await client.views.open({ trigger_id: body.trigger_id, view: buildLeaveRequestModal() });
-  });
+  // app.action('request_leave', async ({ body, client, ack }) => {
+  //   await ack();
+  //   await client.views.open({ trigger_id: body.trigger_id, view: buildLeaveRequestModal() });
+  // });
 
-  app.view('submit_leave_request', async ({ ack, body, view, client }) => {
-    await ack();
-    const values = view.state.values;
-    const userId = body.user.id;
-    const startDate = values.start_date.start_date_pick.selected_date;
-    const endDate = values.end_date.end_date_pick.selected_date;
-    const type = values.leave_type.type_select.selected_option?.value;
-    const employee = values.employee_name.name_input.value;
-    const reason = values.reason?.reason_input?.value || '';
-
-    const start = new Date(startDate);
-    const end = new Date(endDate);
-    const days = Math.max(1, Math.round((end - start) / (1000 * 60 * 60 * 24)) + 1);
-    const noticeDays = Math.round((start - new Date()) / (1000 * 60 * 60 * 24));
-
-    const issues = [];
-    const requirements = [];
-
-    if (type === 'Holiday' && noticeDays < days) {
-      issues.push(`Notice too short — ${days}-day leave needs ${days} days notice, you gave ${noticeDays}.`);
-    }
-    if (type === 'Holiday' && days > 10) {
-      issues.push('Annual leave cannot exceed 10 consecutive days.');
-    }
-    if (type === 'WFH' && days > 2) {
-      issues.push('WFH cannot exceed 2 days per month.');
-    }
-    if (type === 'Sick' && days >= 3) {
-      requirements.push('Medical certificate required from day 3 onward.');
-    }
-    if (type === 'Sick' && days >= 14) {
-      requirements.push('Sick leave of 2+ weeks requires management approval.');
-    }
-    requirements.push('Email your manager and CC: a.alaa@prt.iq, a.ali@prt.iq, aya.mohammed@prt.iq');
-
-    const interpretation = {
-      compliant: issues.length === 0,
-      issues,
-      requirements,
-      guidance: issues.length === 0
-        ? null
-        : `Please review the issues above before submitting.`
-    };
-
-    await client.chat.postMessage({
-      channel: userId,
-      text: `Leave request for ${employee}`,
-      blocks: buildLeaveConfirmationBlocks({ employee, type, startDate, endDate, days, reason }, interpretation)
-    });
-  });
+  // app.view('submit_leave_request', async ({ ack, body, view, client }) => {
+  //   await ack();
+  //   const values = view.state.values;
+  //   const userId = body.user.id;
+  //   const startDate = values.start_date.start_date_pick.selected_date;
+  //   const endDate = values.end_date.end_date_pick.selected_date;
+  //   const type = values.leave_type.type_select.selected_option?.value;
+  //   const employee = values.employee_name.name_input.value;
+  //   const reason = values.reason?.reason_input?.value || '';
+  //
+  //   const start = new Date(startDate);
+  //   const end = new Date(endDate);
+  //   const days = Math.max(1, Math.round((end - start) / (1000 * 60 * 60 * 24)) + 1);
+  //   const noticeDays = Math.round((start - new Date()) / (1000 * 60 * 60 * 24));
+  //
+  //   const issues = [];
+  //   const requirements = [];
+  //
+  //   if (type === 'Holiday' && noticeDays < days) {
+  //     issues.push(`Notice too short — ${days}-day leave needs ${days} days notice, you gave ${noticeDays}.`);
+  //   }
+  //   if (type === 'Holiday' && days > 10) {
+  //     issues.push('Annual leave cannot exceed 10 consecutive days.');
+  //   }
+  //   if (type === 'WFH' && days > 2) {
+  //     issues.push('WFH cannot exceed 2 days per month.');
+  //   }
+  //   if (type === 'Sick' && days >= 3) {
+  //     requirements.push('Medical certificate required from day 3 onward.');
+  //   }
+  //   if (type === 'Sick' && days >= 14) {
+  //     requirements.push('Sick leave of 2+ weeks requires management approval.');
+  //   }
+  //   requirements.push('Email your manager and CC: a.alaa@prt.iq, a.ali@prt.iq, aya.mohammed@prt.iq');
+  //
+  //   const interpretation = {
+  //     compliant: issues.length === 0,
+  //     issues,
+  //     requirements,
+  //     guidance: issues.length === 0
+  //       ? null
+  //       : `Please review the issues above before submitting.`
+  //   };
+  //
+  //   await client.chat.postMessage({
+  //     channel: userId,
+  //     text: `Leave request for ${employee}`,
+  //     blocks: buildLeaveConfirmationBlocks({ employee, type, startDate, endDate, days, reason }, interpretation)
+  //   });
+  // });
 
   // ─── Team Overview ────────────────────────────────────────────────────────────
 
